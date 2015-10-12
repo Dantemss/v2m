@@ -3,16 +3,18 @@ CFLAGS+=`pkg-config --cflags opencv`
 LFLAGS+=`pkg-config --libs opencv`
 
 PROG=main
-OBJS=build/$(PROG).o
-EXEC=bin/$(PROG)
+SRC=main
 
-.PHONY: all clean
+OBJS=$(addprefix build/, $(addsuffix .o, $(SRC)))
+EXEC=bin/$(PROG)
 
 build/%.o: src/%.cpp
 	$(CC) -pthread -c -o $@ $< $(CFLAGS)
 
 $(PROG): $(OBJS)
 	$(CC) -pthread -o $(EXEC) $(OBJS) $(LFLAGS)
+
+.PHONY: all clean
 
 all: $(PROG)
 
