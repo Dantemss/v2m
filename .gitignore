@@ -3,10 +3,10 @@
 .DS_Store
 
 # Video files
-videos/**/*.*
+videos/**/*
 
 # Compiled Object files
-build/**/*.*
+build/**/*
 
 # Precompiled Headers
 *.gch
@@ -27,4 +27,4 @@ build/**/*.*
 *.lib
 
 # Executables
-bin/**/*.*
+bin/**/*

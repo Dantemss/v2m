@@ -4,16 +4,17 @@ LFLAGS+=`pkg-config --libs opencv`
 
 PROG=main
 OBJS=build/$(PROG).o
+EXEC=bin/$(PROG)
 
 .PHONY: all clean
 
 build/%.o: src/%.cpp
-	$(CC) -pthread -c -o $@ $(CFLAGS) $<
+	$(CC) -pthread -c -o $@ $< $(CFLAGS)
 
 $(PROG): $(OBJS)
-	$(CC) -pthread -o bin/$(PROG) $(OBJS) $(LFLAGS)
+	$(CC) -pthread -o $(EXEC) $(OBJS) $(LFLAGS)
 
 all: $(PROG)
 
 clean:
-	rm -f $(OBJS) bin/$(PROG)
+	rm -f $(OBJS) $(EXEC)
