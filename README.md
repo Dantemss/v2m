@@ -1,2 +1,3 @@
-# parallel_cv
+# ParallelCV
+
 Parallel video stream processing for OpenCV
