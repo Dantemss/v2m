@@ -3,7 +3,7 @@ CFLAGS+=`pkg-config --cflags opencv`
 LFLAGS+=`pkg-config --libs opencv`
 
 PROG=main
-SRC=main
+SRC=main work_stream workable work dense_flow
 
 OBJS=$(addprefix build/, $(addsuffix .o, $(SRC)))
 EXEC=bin/$(PROG)
