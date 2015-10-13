@@ -5,6 +5,7 @@ LD_FLAGS += -pthread `pkg-config --libs opencv`
 PROG = dense_flow
 
 SUBDIRS = src src/parallel_cv src/parallel_cv/command
+
 CPP_FILES := $(wildcard $(addsuffix /*.cpp, $(SUBDIRS)))
 OBJ_FILES := $(CPP_FILES:src/%.cpp=build/%.o)
 EXEC_FILE := $(addprefix bin/, $(PROG))
