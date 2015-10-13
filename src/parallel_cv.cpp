@@ -12,7 +12,7 @@ using namespace cv;
 
 namespace parallel_cv {
   void run(cv::String video_path,
-           int num_worker_threads,
+           size_t num_worker_threads,
            cv::Mat (*const work_function)(cv::Mat&, cv::Mat&)) {
     VideoCapture capture(video_path);
 
@@ -26,7 +26,7 @@ namespace parallel_cv {
     WorkStream work_stream(fps);
     WorkStream output_stream(fps);
 
-    int i;
+    size_t i;
     pthread_t worker_threads[num_worker_threads];
     for (i = 0; i < num_worker_threads; i++) {
       if (pthread_create(&worker_threads[i], NULL, &worker::work, &work_stream)) {
