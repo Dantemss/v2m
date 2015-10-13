@@ -1,6 +1,7 @@
 #include "work_stream.hpp"
 
 using namespace cv;
+using namespace parallel_cv;
 
 WorkStream::WorkStream(double frames_per_second) {
   fps = frames_per_second;

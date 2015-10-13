@@ -1,6 +1,7 @@
 #include "workable.hpp"
 
 using namespace cv;
+using namespace parallel_cv;
 
 Workable::Workable(Mat (*const func)(Mat&, Mat&), const Mat& frame, const Mat& prev) {
   f = func;
