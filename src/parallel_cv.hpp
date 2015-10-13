@@ -4,6 +4,8 @@
 #include "opencv2/core/mat.hpp"
 
 namespace parallel_cv {
+  void log(const char* message);
+
   void run(cv::String video_path,
            size_t num_worker_threads,
            cv::Mat (*const work_function)(cv::Mat&, cv::Mat&));

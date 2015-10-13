@@ -15,6 +15,8 @@ namespace parallel_cv {
       WorkStream* stream = (WorkStream*) arg;
 
       for (;;) stream->pop()->work();
+
+      return 0;
     }
 
     void *output(void *arg) {
@@ -22,7 +24,7 @@ namespace parallel_cv {
       double fps = stream->getFps();
       double mspf = 1000/fps;
       std::stringstream title;
-      title << WINDOW_NAME << " - " << fps << " FPS";
+      title << WINDOW_NAME " - " << fps << " FPS";
       setWindowTitle(WINDOW_NAME, title.str());
 
       for (;;) {
@@ -32,6 +34,8 @@ namespace parallel_cv {
           break;
         }
       }
+
+      return 0;
     }
 
     Mat exit(Mat& frame, Mat& prev) {

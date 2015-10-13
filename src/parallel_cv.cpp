@@ -11,13 +11,17 @@
 using namespace cv;
 
 namespace parallel_cv {
+  void log(const char* message) {
+    printf("[ParallelCV] %s\n", message);
+  }
+
   void run(cv::String video_path,
            size_t num_worker_threads,
            cv::Mat (*const work_function)(cv::Mat&, cv::Mat&)) {
     VideoCapture capture(video_path);
 
     if (!capture.isOpened()) {
-      puts("[ParallelCV] Error: could not open video capture");
+      log("Error: could not open video capture");
       exit(EXIT_FAILURE);
     }
 
@@ -30,7 +34,7 @@ namespace parallel_cv {
     pthread_t worker_threads[num_worker_threads];
     for (i = 0; i < num_worker_threads; i++) {
       if (pthread_create(&worker_threads[i], NULL, &worker::work, &work_stream)) {
-        puts("[ParallelCV] Error: could not create worker threads");
+        log("Error: could not create worker threads");
         exit(EXIT_FAILURE);
       }
       pthread_detach(worker_threads[i]);
@@ -38,7 +42,7 @@ namespace parallel_cv {
 
     pthread_t output_thread;
     if (pthread_create(&output_thread, NULL, &worker::output, &output_stream)) {
-      puts("[ParallelCV] Error: could not create output thread");
+      log("Error: could not create output thread");
       exit(EXIT_FAILURE);
     }
 
