@@ -7,6 +7,7 @@
 #include "parallel_cv.hpp"
 #include "parallel_cv/work_stream.hpp"
 #include "parallel_cv/worker.hpp"
+#include "parallel_cv/command/exit.hpp"
 
 using namespace cv;
 
@@ -17,7 +18,7 @@ namespace parallel_cv {
 
   void run(cv::String video_path,
            size_t num_worker_threads,
-           cv::Mat (*const work_function)(cv::Mat&, cv::Mat&)) {
+           cv::Mat (*const command_function)(cv::Mat&, cv::Mat&)) {
     VideoCapture capture(video_path);
 
     if (!capture.isOpened()) {
@@ -54,7 +55,7 @@ namespace parallel_cv {
 
       if (!capture.read(frame) || frame.empty()) break;
 
-      workable_ptr = makePtr<Workable>(work_function, frame, prev);
+      workable_ptr = makePtr<Workable>(command_function, frame, prev);
 
       work_stream.push(workable_ptr);
       output_stream.push(workable_ptr);
@@ -70,11 +71,11 @@ namespace parallel_cv {
     }
 
     for (i = 0; i < num_worker_threads; i++) {
-      workable_ptr = makePtr<Workable>(&worker::exit, frame, prev);
+      workable_ptr = makePtr<Workable>(&command::exit, frame, prev);
       work_stream.push(workable_ptr);
     }
 
-    workable_ptr = makePtr<Workable>(&worker::exit, frame, prev);
+    workable_ptr = makePtr<Workable>(&command::exit, frame, prev);
     output_stream.push(workable_ptr);
 
     pthread_join(output_thread, NULL);

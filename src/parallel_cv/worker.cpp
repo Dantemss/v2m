@@ -37,10 +37,5 @@ namespace parallel_cv {
 
       return 0;
     }
-
-    Mat exit(Mat& frame, Mat& prev) {
-      pthread_exit(NULL);
-      return frame;
-    }
   }
 }

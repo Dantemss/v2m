@@ -8,7 +8,7 @@ namespace parallel_cv {
 
   void run(cv::String video_path,
            size_t num_worker_threads,
-           cv::Mat (*const work_function)(cv::Mat&, cv::Mat&));
+           cv::Mat (*const command_function)(cv::Mat&, cv::Mat&));
 }
 
 #endif

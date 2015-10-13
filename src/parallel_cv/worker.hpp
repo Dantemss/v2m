@@ -8,8 +8,6 @@ namespace parallel_cv {
     void *work(void *arg);
 
     void *output(void *arg);
-
-    cv::Mat exit(cv::Mat& frame, cv::Mat& prev);
   }
 }
 

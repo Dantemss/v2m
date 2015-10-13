@@ -1,22 +1,23 @@
-CC=g++
-CFLAGS+=-pthread -Og -Wall `pkg-config --cflags opencv`
-LDFLAGS+=-pthread `pkg-config --libs opencv`
+CC = g++
+CC_FLAGS += -pthread -Og -Wall `pkg-config --cflags opencv`
+LD_FLAGS += -pthread `pkg-config --libs opencv`
 
-PROG=dense_flow
-SRC=main parallel_cv parallel_cv/work_stream parallel_cv/workable parallel_cv/worker $(PROG)
+PROG = dense_flow
 
-OBJS=$(addprefix build/, $(addsuffix .o, $(SRC)))
-EXEC=bin/$(PROG)
+SUBDIRS = src src/parallel_cv src/parallel_cv/command
+CPP_FILES := $(wildcard $(addsuffix /*.cpp, $(SUBDIRS)))
+OBJ_FILES := $(CPP_FILES:src/%.cpp=build/%.o)
+EXEC_FILE := $(addprefix bin/, $(PROG))
 
 build/%.o: src/%.cpp
-	$(CC) -c $(CFLAGS) -o $@ $<
+	$(CC) -c $(CC_FLAGS) -o $@ $<
 
-$(PROG): $(OBJS)
-	$(CC) $(OBJS) -o $(EXEC) $(LDFLAGS)
+$(PROG): $(OBJ_FILES)
+	$(CC) $(OBJ_FILES) -o $(EXEC_FILE) $(LD_FLAGS)
 
 .PHONY: all clean
 
-all: $(PROG)
+all: $(EXEC_FILE)
 
 clean:
-	rm -f $(OBJS) $(EXEC)
+	rm -f $(OBJ_FILES) $(EXEC_FILE)
