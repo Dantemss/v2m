@@ -1,18 +1,18 @@
 CC=g++
-CFLAGS+=-Og -Wall `pkg-config --cflags opencv`
-LDFLAGS+=`pkg-config --libs opencv`
+CFLAGS+=-pthread -Og -Wall `pkg-config --cflags opencv`
+LDFLAGS+=-pthread `pkg-config --libs opencv`
 
-PROG=parallel_cv
-SRC=main parallel_cv parallel_cv/work_stream parallel_cv/workable parallel_cv/worker dense_flow
+PROG=dense_flow
+SRC=main parallel_cv parallel_cv/work_stream parallel_cv/workable parallel_cv/worker $(PROG)
 
 OBJS=$(addprefix build/, $(addsuffix .o, $(SRC)))
 EXEC=bin/$(PROG)
 
 build/%.o: src/%.cpp
-	$(CC) -pthread -c -o $@ $< $(CFLAGS)
+	$(CC) -c $(CFLAGS) -o $@ $<
 
 $(PROG): $(OBJS)
-	$(CC) -pthread -o $(EXEC) $(OBJS) $(LDFLAGS)
+	$(CC) $(OBJS) -o $(EXEC) $(LDFLAGS)
 
 .PHONY: all clean
 
