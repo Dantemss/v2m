@@ -2,8 +2,8 @@ CC=g++
 CFLAGS+=`pkg-config --cflags opencv`
 LFLAGS+=`pkg-config --libs opencv`
 
-PROG=main
-SRC=main work_stream workable work dense_flow
+PROG=parallel_cv
+SRC=main parallel_cv work_stream workable dense_flow
 
 OBJS=$(addprefix build/, $(addsuffix .o, $(SRC)))
 EXEC=bin/$(PROG)

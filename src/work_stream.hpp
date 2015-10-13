@@ -1,5 +1,5 @@
-#ifndef WORK_STREAM_HPP
-#define WORK_STREAM_HPP
+#ifndef PARALLEL_CV_WORK_STREAM_HPP
+#define PARALLEL_CV_WORK_STREAM_HPP
 
 #include <queue>
 #include <pthread.h>

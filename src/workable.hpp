@@ -1,5 +1,5 @@
-#ifndef WORKABLE_HPP
-#define WORKABLE_HPP
+#ifndef PARALLEL_CV_WORKABLE_HPP
+#define PARALLEL_CV_WORKABLE_HPP
 
 #include <pthread.h>
 
