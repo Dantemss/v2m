@@ -17,7 +17,7 @@ namespace parallel_cv {
     VideoCapture capture(video_path);
 
     if (!capture.isOpened()) {
-      printf("Error opening video capture\n");
+      puts("[ParallelCV] Error: could not open video capture");
       exit(EXIT_FAILURE);
     }
 
@@ -30,7 +30,7 @@ namespace parallel_cv {
     pthread_t worker_threads[num_worker_threads];
     for (i = 0; i < num_worker_threads; i++) {
       if (pthread_create(&worker_threads[i], NULL, &worker::work, &work_stream)) {
-        printf("Error creating worker threads\n");
+        puts("[ParallelCV] Error: could not create worker threads");
         exit(EXIT_FAILURE);
       }
       pthread_detach(worker_threads[i]);
@@ -38,7 +38,7 @@ namespace parallel_cv {
 
     pthread_t output_thread;
     if (pthread_create(&output_thread, NULL, &worker::output, &output_stream)) {
-      printf("Error creating output thread\n");
+      puts("[ParallelCV] Error: could not create output thread");
       exit(EXIT_FAILURE);
     }
 
