@@ -1,5 +1,3 @@
-#include <cstdio>
-
 #include "parallel_cv.hpp"
 #include "parallel_cv/command/dense_flow.hpp"
 
