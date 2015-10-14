@@ -8,7 +8,7 @@
 #include "parallel_cv.hpp"
 #include "parallel_cv/work_stream.hpp"
 #include "parallel_cv/worker.hpp"
-#include "parallel_cv/command/exit.hpp"
+#include "parallel_cv/commands/exit.hpp"
 
 using namespace cv;
 
@@ -72,11 +72,11 @@ namespace parallel_cv {
     }
 
     for (i = 0; i < num_worker_threads; i++) {
-      workable_ptr = makePtr<Workable>(&command::exit, frame, prev);
+      workable_ptr = makePtr<Workable>(&commands::exit, frame, prev);
       work_stream.push(workable_ptr);
     }
 
-    workable_ptr = makePtr<Workable>(&command::exit, frame, prev);
+    workable_ptr = makePtr<Workable>(&commands::exit, frame, prev);
     output_stream.push(workable_ptr);
 
     pthread_join(output_thread, NULL);

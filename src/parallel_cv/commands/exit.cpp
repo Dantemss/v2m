@@ -5,7 +5,7 @@
 using namespace cv;
 
 namespace parallel_cv {
-  namespace command {
+  namespace commands {
     Mat exit(Mat& frame, Mat& prev) {
       pthread_exit(NULL);
       return frame;

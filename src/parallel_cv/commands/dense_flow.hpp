@@ -4,7 +4,7 @@
 #include "opencv2/core/mat.hpp"
 
 namespace parallel_cv {
-  namespace command {
+  namespace commands {
     cv::Mat denseFlow(cv::Mat& frame, cv::Mat& prev);
   }
 }

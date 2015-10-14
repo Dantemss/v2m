@@ -6,7 +6,7 @@
 using namespace cv;
 
 namespace parallel_cv {
-  namespace command {
+  namespace commands {
     inline bool isFlowCorrect(Point2f u) {
       return !cvIsNaN(u.x) && !cvIsNaN(u.y) && fabs(u.x) < 1e9 && fabs(u.y) < 1e9;
     }
