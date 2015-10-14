@@ -2,7 +2,7 @@ CC = g++
 CC_FLAGS += -pthread -Og -Wall `pkg-config --cflags opencv`
 LD_FLAGS += -pthread `pkg-config --libs opencv`
 
-PROG = dense_flow
+PROG = map
 
 SUBDIRS = src src/parallel_cv src/parallel_cv/commands
 

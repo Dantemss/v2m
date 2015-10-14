@@ -1,7 +1,7 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/video/tracking.hpp"
 
-#include "dense_flow.hpp"
+#include "map.hpp"
 
 using namespace cv;
 
@@ -40,10 +40,9 @@ namespace parallel_cv {
     }
 
     /**
-     * @function DenseFlow
-     * @brief Calculate the dense optical flow and display it
+     * @function map
      */
-    Mat denseFlow(Mat& frame, Mat& prev) {
+    Mat map(Mat& frame, Mat& prev) {
       if (prev.empty()) return frame;
 
       Mat gray, prev_gray;

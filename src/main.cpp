@@ -1,10 +1,10 @@
 #include "parallel_cv.hpp"
-#include "parallel_cv/commands/dense_flow.hpp"
+#include "parallel_cv/commands/map.hpp"
 
 using namespace parallel_cv;
 
 #define NUM_WORKER_THREADS 8
-#define COMMAND_FUNCTION commands::denseFlow
+#define COMMAND_FUNCTION commands::map
 
 int main(int argc, char *argv[]) {
   cv::String video_path;
