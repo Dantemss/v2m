@@ -6,8 +6,17 @@
 using namespace cv;
 
 #define MAX_FLOW 25
-#define K_SCALE 0.25*(2 - sqrt(2))
+
+#define K_SCALE            0.25*(2 - sqrt(2))
 #define QRTR_SQRT_2_SCALED 0.125*(sqrt(2) - 1)
+
+#define PYR_SCALE  0.5
+#define LEVELS     3
+#define WINSIZE    20
+#define ITERATIONS 3
+#define POLY_N     5
+#define POLY_SIGMA 1.1
+#define FLAGS      0
 
 namespace parallel_cv {
   namespace commands {
@@ -41,7 +50,10 @@ namespace parallel_cv {
       cvtColor(prev, prev_gray, CV_BGR2GRAY);
 
       Mat_<Point2f> flow;
-      calcOpticalFlowFarneback(prev_gray, gray, flow, 0.5, 3, 20, 3, 5, 1.1, 0);
+      calcOpticalFlowFarneback(prev_gray, gray, flow,
+                               PYR_SCALE, LEVELS, WINSIZE, ITERATIONS, POLY_N, POLY_SIGMA, FLAGS);
+      //Ptr<DualTVL1OpticalFlow> tvl1 = createOptFlow_DualTVL1();
+      //tvl1->calc(prev_gray, gray, flow);
 
       int i, j;
       Point2f p;
