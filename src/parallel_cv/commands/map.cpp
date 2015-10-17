@@ -5,12 +5,12 @@
 
 using namespace cv;
 
-#define MAX_FLOW 25
-
-#define K_SCALE            0.25*(2 - sqrt(2))
-#define QRTR_SQRT_2_SCALED 0.125*(sqrt(2) - 1)
-
 #define TVL1
+
+#define MAX_FLOW      10
+
+#define K_ADJACENT    0.25
+#define K_CORNER      0.125
 
 #define FB_PYR_SCALE  0.5
 #define FB_LEVELS     3
@@ -35,19 +35,19 @@ using namespace cv;
 
 namespace parallel_cv {
   namespace commands {
-    Matx33d div_vx_kernel(QRTR_SQRT_2_SCALED, 0, -QRTR_SQRT_2_SCALED,
-                          K_SCALE,            0, -K_SCALE,
-                          QRTR_SQRT_2_SCALED, 0, -QRTR_SQRT_2_SCALED);
-    Matx33d div_vy_kernel(QRTR_SQRT_2_SCALED,  K_SCALE,  QRTR_SQRT_2_SCALED,
-                          0,                   0,        0,
-                          -QRTR_SQRT_2_SCALED, -K_SCALE, -QRTR_SQRT_2_SCALED);
+    Matx33d div_vx_kernel(K_CORNER,   0, -K_CORNER,
+                          K_ADJACENT, 0, -K_ADJACENT,
+                          K_CORNER,   0, -K_CORNER);
+    Matx33d div_vy_kernel( K_CORNER,  K_ADJACENT,  K_CORNER,
+                           0,         0,           0,
+                          -K_CORNER, -K_ADJACENT, -K_CORNER);
 
-    Matx33d curlz_vx_kernel(QRTR_SQRT_2_SCALED,  K_SCALE,  QRTR_SQRT_2_SCALED,
-                            0,                   0,        0,
-                            -QRTR_SQRT_2_SCALED, -K_SCALE, -QRTR_SQRT_2_SCALED);
-    Matx33d curlz_vy_kernel(-QRTR_SQRT_2_SCALED, 0, QRTR_SQRT_2_SCALED,
-                            -K_SCALE,            0, K_SCALE, 
-                            -QRTR_SQRT_2_SCALED, 0, QRTR_SQRT_2_SCALED);
+    Matx33d curlz_vx_kernel( K_CORNER,  K_ADJACENT,  K_CORNER,
+                             0,         0,           0,
+                            -K_CORNER, -K_ADJACENT, -K_CORNER);
+    Matx33d curlz_vy_kernel(-K_CORNER,   0, K_CORNER,
+                            -K_ADJACENT, 0, K_ADJACENT,
+                            -K_CORNER,   0, K_CORNER);
 
     Matx13d curly_vz_kernel(0.5, 0, -0.5);
     Matx31d curlx_vz_kernel(-0.5,
@@ -89,13 +89,12 @@ namespace parallel_cv {
         tvl1->calc(prev_gray, gray, flow);
       #endif
 
-
       int i, j;
       Point2f p;
       Size flow_size = flow.size();
-      Mat_<double> vx(flow_size), vy(flow_size), vz(flow_size),
-                   curlx(flow_size), curly(flow_size), curlz(flow_size),
-                   temp_x(flow_size), temp_y(flow_size);
+      Mat_<double> vx(flow_size, 0.0), vy(flow_size, 0.0), vz(flow_size, 0.0),
+                   curlx(flow_size, 0.0), curly(flow_size, 0.0), curlz(flow_size, 0.0),
+                   temp_x(flow_size, 0.0), temp_y(flow_size, 0.0);
       for (i = 0; i < flow_size.height; i++) {
         for (j = 0; j < flow_size.width; j++) {
           p = flow(i, j);
@@ -118,7 +117,7 @@ namespace parallel_cv {
       filter2D(vz, curly, -1, curly_vz_kernel);
       filter2D(vz, curlx, -1, curlx_vz_kernel);
 
-      return vz + 0.5;
+      return vz/MAX_FLOW + 0.5;
     }
   }
 }
