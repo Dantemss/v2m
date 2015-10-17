@@ -1,7 +1,7 @@
 #include "opencv2/imgproc/imgproc.hpp"
 
 #include "map.hpp"
-#include "dense_flow.hpp"
+#include "algorithms/dense_flow.hpp"
 
 using namespace cv;
 
@@ -34,8 +34,8 @@ namespace parallel_cv {
       cvtColor(frame, gray, CV_BGR2GRAY);
       cvtColor(prev, prev_gray, CV_BGR2GRAY);
 
-      Mat_<Point2f> flow = dense_flow::calc(gray, prev_gray);
-      std::vector< Ptr< Vec<double, 8> > > features = dense_flow::getFeatures(flow);
+      Mat_<Point2f> flow = algorithms::dense_flow::calc(gray, prev_gray);
+      std::vector< Ptr< Vec<double, 8> > > features = algorithms::dense_flow::getFeatures(flow);
 
       std::vector<int> labels;
       partition(features, labels, &cluster);

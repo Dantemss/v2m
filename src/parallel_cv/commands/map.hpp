@@ -1,5 +1,5 @@
-#ifndef PARALLEL_CV_COMMAND_MAP_HPP
-#define PARALLEL_CV_COMMAND_MAP_HPP
+#ifndef PARALLEL_CV_COMMANDS_MAP_HPP
+#define PARALLEL_CV_COMMANDS_MAP_HPP
 
 #include "opencv2/core/mat.hpp"
 
