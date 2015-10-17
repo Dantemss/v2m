@@ -1,3 +1,6 @@
+#include <iostream>
+#include <vector>
+
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/video/tracking.hpp"
 
@@ -53,6 +56,23 @@ namespace parallel_cv {
     Matx31d curlx_vz_kernel(-0.5,
                             0,
                             0.5);
+
+    #define INITIAL_INDEX 2
+    #define MAX_DISTANCE  0.01
+
+    bool cluster(const Ptr< Vec<double, 8> >& a, const Ptr< Vec<double, 8> >& b) {
+      Vec<double, 8> va, vb;
+      va = *a;
+      vb = *b;
+
+      int i;
+      double dist = 0;
+      for (i = INITIAL_INDEX; i < 8; i++) {
+        dist += pow((va[i] - vb[i]), 2);
+      }
+
+      return dist < MAX_DISTANCE;
+    }
 
     /**
      * @function map
@@ -117,7 +137,28 @@ namespace parallel_cv {
       filter2D(vz, curly, -1, curly_vz_kernel);
       filter2D(vz, curlx, -1, curlx_vz_kernel);
 
-      return vz/MAX_FLOW + 0.5;
+      std::vector< Ptr< Vec<double, 8> > > features;
+      for (i = 0; i < flow_size.height; i++) {
+        for (j = 0; j < flow_size.width; j++) {
+          features.push_back(makePtr< Vec<double, 8> >(
+            i, j, vx(i, j), vy(i, j), vz(i, j), curlz(i, j), curly(i, j), curlx(i, j)
+          ));
+        }
+      }
+
+      std::vector<int> labels;
+      partition(features, labels, &cluster);
+
+      Mat_<Vec3b> output(flow_size, 0);
+      for( i = 0; i < (int)features.size(); i++ ) {
+        int clusterIdx = labels[i];
+        Ptr< Vec<double, 8> > feat = features[i];
+        output((*feat)[0], (*feat)[1]) = Vec3b(clusterIdx/(256*256),
+                                              (clusterIdx/256) % 256,
+                                               clusterIdx % 256);
+      }
+
+      return output;
     }
   }
 }
