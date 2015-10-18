@@ -86,7 +86,7 @@ namespace parallel_cv {
           return flow;
         } 
 
-        std::vector< Ptr< Vec<double, 8> > > get3dFlow(Mat& frame, Mat& prev) {
+        std::vector< Vec<double, 8> > get3dFlow(Mat& frame, Mat& prev) {
           Mat_<Point2f> flow = getFlow(frame, prev);
 
           int i, j;
@@ -119,16 +119,18 @@ namespace parallel_cv {
           filter2D(vz, curly, -1, curly_vz_kernel);
           filter2D(vz, curlx, -1, curlx_vz_kernel);
 
-          std::vector< Ptr< Vec<double, 8> > > features;
+          std::vector< Vec<double, 8> > flow_3d;
           for (i = 0; i < flow_size.height; i++) {
             for (j = 0; j < flow_size.width; j++) {
-              features.push_back(makePtr< Vec<double, 8> >(
-                i, j, vx(i, j), vy(i, j), vz(i, j), curlz(i, j), curly(i, j), curlx(i, j)
-              ));
+              flow_3d.push_back(
+                Vec<double, 8>(
+                  i, j, vx(i, j), vy(i, j), vz(i, j), curlx(i, j), curly(i, j), curlz(i, j)
+                )
+              );
             }
           }
 
-          return features;
+          return flow_3d;
         }
       }
     }
