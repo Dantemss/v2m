@@ -36,26 +36,26 @@ namespace parallel_cv {
   namespace commands {
     namespace algorithms {
       namespace dense_flow {
-        Matx33d div_vx_kernel(K_CORNER,   0, -K_CORNER,
-                              K_ADJACENT, 0, -K_ADJACENT,
-                              K_CORNER,   0, -K_CORNER);
-        Matx33d div_vy_kernel( K_CORNER,  K_ADJACENT,  K_CORNER,
-                               0,         0,           0,
-                              -K_CORNER, -K_ADJACENT, -K_CORNER);
+        const Matx33d div_vx_kernel(K_CORNER,   0, -K_CORNER,
+                                    K_ADJACENT, 0, -K_ADJACENT,
+                                    K_CORNER,   0, -K_CORNER);
+        const Matx33d div_vy_kernel( K_CORNER,  K_ADJACENT,  K_CORNER,
+                                     0,         0,           0,
+                                    -K_CORNER, -K_ADJACENT, -K_CORNER);
 
-        Matx33d curlz_vx_kernel( K_CORNER,  K_ADJACENT,  K_CORNER,
-                                 0,         0,           0,
-                                -K_CORNER, -K_ADJACENT, -K_CORNER);
-        Matx33d curlz_vy_kernel(-K_CORNER,   0, K_CORNER,
-                                -K_ADJACENT, 0, K_ADJACENT,
-                                -K_CORNER,   0, K_CORNER);
+        const Matx33d curlz_vx_kernel( K_CORNER,  K_ADJACENT,  K_CORNER,
+                                       0,         0,           0,
+                                      -K_CORNER, -K_ADJACENT, -K_CORNER);
+        const Matx33d curlz_vy_kernel(-K_CORNER,   0, K_CORNER,
+                                      -K_ADJACENT, 0, K_ADJACENT,
+                                      -K_CORNER,   0, K_CORNER);
 
-        Matx13d curly_vz_kernel(0.5, 0, -0.5);
-        Matx31d curlx_vz_kernel(-0.5,
-                                 0,
-                                 0.5);
+        const Matx13d curly_vz_kernel(0.5, 0, -0.5);
+        const Matx31d curlx_vz_kernel(-0.5,
+                                       0,
+                                       0.5);
 
-        Mat_<Point2f> calc(Mat& frame, Mat& prev) {
+        inline Mat_<Point2f> getFlow(Mat& frame, Mat& prev) {
           Mat_<Point2f> flow;
 
           #ifdef FARNEBACK
@@ -86,7 +86,9 @@ namespace parallel_cv {
           return flow;
         } 
 
-        std::vector< Ptr< Vec<double, 8> > > getFeatures(Mat_<Point2f>& flow) {
+        std::vector< Ptr< Vec<double, 8> > > get3dFlow(Mat& frame, Mat& prev) {
+          Mat_<Point2f> flow = getFlow(frame, prev);
+
           int i, j;
           Point2f p;
           Size flow_size = flow.size();

@@ -34,18 +34,19 @@ namespace parallel_cv {
       cvtColor(frame, gray, CV_BGR2GRAY);
       cvtColor(prev, prev_gray, CV_BGR2GRAY);
 
-      Mat_<Point2f> flow = algorithms::dense_flow::calc(gray, prev_gray);
-      std::vector< Ptr< Vec<double, 8> > > features = algorithms::dense_flow::getFeatures(flow);
+      std::vector< Ptr< Vec<double, 8> > > flow = algorithms::dense_flow::get3dFlow(
+        gray, prev_gray
+      );
 
       std::vector<int> labels;
-      partition(features, labels, &cluster);
+      partition(flow, labels, &cluster);
 
-      Mat_<Vec3b> output(flow.size(), 0);
+      Mat_<Vec3b> output(frame.size(), 0);
       size_t i;
-      for(i = 0; i < features.size(); i++) {
-        output((*features[i])[0], (*features[i])[1]) = Vec3b(labels[i]/(256*256),
-                                                            (labels[i]/256) % 256,
-                                                             labels[i] % 256);
+      for(i = 0; i < flow.size(); i++) {
+        output((*flow[i])[0], (*flow[i])[1]) = Vec3b(labels[i]/(256*256),
+                                                    (labels[i]/256) % 256,
+                                                     labels[i] % 256);
       }
 
       return output;
