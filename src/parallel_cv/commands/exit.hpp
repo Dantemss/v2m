@@ -1,7 +1,7 @@
 #ifndef PARALLEL_CV_COMMANDS_EXIT_HPP
 #define PARALLEL_CV_COMMANDS_EXIT_HPP
 
-#include "opencv2/core/mat.hpp"
+#include <opencv2/core/mat.hpp>
 
 namespace parallel_cv {
   namespace commands {

@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "opencv2/core/mat.hpp"
+#include <opencv2/core/mat.hpp>
 
 namespace parallel_cv {
   namespace commands {

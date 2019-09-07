@@ -3,7 +3,8 @@
 #include <cerrno>
 #include <pthread.h>
 
-#include "opencv2/highgui/highgui.hpp"
+#include <opencv2/videoio.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 #include "parallel_cv.hpp"
 #include "parallel_cv/work_stream.hpp"
@@ -27,7 +28,7 @@ namespace parallel_cv {
       exit(EXIT_FAILURE);
     }
 
-    double fps = capture.get(CV_CAP_PROP_FPS);
+    double fps = capture.get(CAP_PROP_FPS);
 
     WorkStream work_stream(fps);
     WorkStream output_stream(fps);

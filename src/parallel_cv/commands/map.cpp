@@ -1,12 +1,9 @@
-#include "opencv2/imgproc/imgproc.hpp"
+#include <opencv2/imgproc/imgproc.hpp>
 
 #include "map.hpp"
 
-#ifdef DENSE_FLOW
-  #include "algorithms/dense_flow.hpp"
-#else
-  #include "algorithms/sparse_flow.hpp"
-#endif
+#include "../../parallel_cv.hpp"
+#include "algorithms/dense_flow.hpp"
 
 using namespace cv;
 
@@ -31,32 +28,21 @@ namespace parallel_cv {
       if (prev.empty()) return frame;
 
       Mat gray, prev_gray;
-      cvtColor(frame, gray, CV_BGR2GRAY);
-      cvtColor(prev, prev_gray, CV_BGR2GRAY);
+      cvtColor(frame, gray, COLOR_BGR2GRAY);
+      cvtColor(prev, prev_gray, COLOR_BGR2GRAY);
 
-      #ifdef DENSE_FLOW
-        std::vector< Vec<double, 8> > flow = algorithms::dense_flow::get3dFlow(gray, prev_gray);
-      #else
-        std::vector< Vec<double, 8> > flow = algorithms::sparse_flow::get3dFlow(gray, prev_gray);
-      #endif
+      std::vector< Vec<double, 8> > flow = algorithms::dense_flow::get3dFlow(gray, prev_gray);
 
       std::vector<int> labels;
-      partition(flow, labels, &cluster);
+      //partition(flow, labels, &cluster);
 
-      #ifdef DENSE_FLOW
-        Mat_<Vec3b> output(frame.size(), 0.0);
-      #else
-        Mat_<Vec3b> output(frame);
-      #endif
+      Mat_<Vec3b> output(frame.size(), 0.0);
       size_t i;
       for(i = 0; i < flow.size(); i++) {
-        #ifdef DENSE_FLOW
-          output(flow[i][0], flow[i][1]) = Vec3b(labels[i]/(256*256),
-                                                (labels[i]/256) % 256,
-                                                 labels[i] % 256);
-        #else
-          circle(output, Point(flow[i][1], flow[i][0]), 3, Scalar(0,255,0), -1, 8);
-        #endif
+        Vec<double, 8> fl = flow[i];
+        int x = fl[0];
+        int y = fl[1];
+        output(x, y) = Vec3b(fl[4], frame.at<Vec3b>(x, y)[1], -fl[4]);
       }
 
       return output;

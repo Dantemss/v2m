@@ -3,7 +3,7 @@
 
 #include <pthread.h>
 
-#include "opencv2/core/mat.hpp"
+#include <opencv2/core/mat.hpp>
 
 namespace parallel_cv {
   class Workable {

@@ -1,6 +1,6 @@
 CC = g++
-CC_FLAGS += -pthread -Og -Wall `pkg-config --cflags opencv`
-LD_FLAGS += -pthread `pkg-config --libs opencv`
+CC_FLAGS += -pthread -Og -Wall `pkg-config --cflags opencv4`
+LD_FLAGS += -pthread `pkg-config --libs opencv4`
 
 PROG = map
 
