@@ -9,25 +9,24 @@
 
 namespace parallel_cv {
   class WorkStream {
-    double fps;
-    size_t ms;
-    std::queue < cv::Ptr<Workable> > q;
+    size_t max_size;
+    std::queue <cv::Ptr<Workable>> queue;
     pthread_mutex_t mutex;
     sem_t semaphore;
 
     public:
 
-    WorkStream(double frames_per_second, size_t max_size);
+    WorkStream(size_t);
 
     virtual ~WorkStream();
 
-    void push(cv::Ptr<Workable> ptr);
+    void push(cv::Ptr<Workable>);
 
     cv::Ptr<Workable> pop();
 
-    bool full();
+    size_t size();
 
-    double getFps();
+    bool full();
   };
 }
 

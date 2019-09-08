@@ -1,12 +1,9 @@
-#include "parallel_cv.hpp"
-#include "parallel_cv/commands/map.hpp"
+#include "parallel_cv/log.hpp"
+#include "parallel_cv/worker.hpp"
 
 using namespace parallel_cv;
 
-#define NUM_WORKER_THREADS 4
-#define COMMAND_FUNCTION commands::map
-
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
   cv::String video_path;
 
   switch(argc) {
@@ -18,7 +15,7 @@ int main(int argc, char *argv[]) {
              return 1;
   }
 
-  run(video_path, NUM_WORKER_THREADS, COMMAND_FUNCTION);
+  Worker worker(video_path);
 
-  return 0;
+  return worker.run();
 }

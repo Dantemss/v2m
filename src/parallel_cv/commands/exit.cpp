@@ -2,11 +2,9 @@
 
 #include "exit.hpp"
 
-using namespace cv;
-
 namespace parallel_cv {
   namespace commands {
-    Mat exit(Mat& frame, Mat& prev) {
+    cv::Mat exit(cv::Mat& frame, cv::Mat& prev) {
       pthread_exit(NULL);
       return frame;
     }

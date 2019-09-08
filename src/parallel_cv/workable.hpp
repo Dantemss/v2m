@@ -1,20 +1,24 @@
 #ifndef PARALLEL_CV_WORKABLE_HPP
 #define PARALLEL_CV_WORKABLE_HPP
 
+#include <atomic>
+
 #include <pthread.h>
 
 #include <opencv2/core/mat.hpp>
 
 namespace parallel_cv {
   class Workable {
-    cv::Mat (*f)(cv::Mat&, cv::Mat&);
-    cv::Mat fr, pr, out;
-    bool worked;
+    cv::Mat (*function)(cv::Mat&, cv::Mat&);
+    cv::Mat frame, prev, output;
+    std::atomic<bool> worked { false };
     pthread_mutex_t mutex;
 
     public:
 
-    Workable(cv::Mat (*const func)(cv::Mat&, cv::Mat&), const cv::Mat& frame, const cv::Mat& prev);
+    size_t count;
+
+    Workable(cv::Mat (*const)(cv::Mat&, cv::Mat&), const cv::Mat&, const cv::Mat&, size_t);
 
     virtual ~Workable();
 
