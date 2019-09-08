@@ -9,7 +9,7 @@ namespace parallel_cv {
   namespace commands {
     namespace algorithms {
       namespace dense_flow {
-        std::vector< cv::Vec<double, 8> > get3dFlow(cv::Mat& frame, cv::Mat& prev);
+        std::vector<cv::Vec<double, 8>> get3dFlow(cv::Mat& frame, cv::Mat& prev);
       }
     }
   }
