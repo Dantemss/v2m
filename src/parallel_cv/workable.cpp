@@ -1,3 +1,5 @@
+#include <unistd.h>
+
 #include "workable.hpp"
 
 using namespace cv;
@@ -24,7 +26,7 @@ void Workable::work() {
 }
 
 Mat Workable::getOutput() {
-  if (!worked) work();
+  while (!worked) sleep(0);
 
   return out;
 }

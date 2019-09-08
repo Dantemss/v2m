@@ -3,7 +3,7 @@
 
 using namespace parallel_cv;
 
-#define NUM_WORKER_THREADS 1
+#define NUM_WORKER_THREADS 4
 #define COMMAND_FUNCTION commands::map
 
 int main(int argc, char *argv[]) {

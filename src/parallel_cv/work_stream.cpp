@@ -3,8 +3,9 @@
 using namespace cv;
 using namespace parallel_cv;
 
-WorkStream::WorkStream(double frames_per_second) {
+WorkStream::WorkStream(double frames_per_second, size_t max_size) {
   fps = frames_per_second;
+  ms = max_size;
   pthread_mutex_init(&mutex, NULL);
   sem_init(&semaphore, 0, 0);
 }
@@ -33,6 +34,10 @@ Ptr<Workable> WorkStream::pop() {
   pthread_mutex_unlock(&mutex);
 
   return ptr;
+}
+
+bool WorkStream::full() {
+  return q.size() >= ms;
 }
 
 double WorkStream::getFps() {

@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <ctime>
 #include <cerrno>
+
 #include <pthread.h>
 
 #include <opencv2/videoio.hpp>
@@ -30,8 +31,8 @@ namespace parallel_cv {
 
     double fps = capture.get(CAP_PROP_FPS);
 
-    WorkStream work_stream(fps);
-    WorkStream output_stream(fps);
+    WorkStream work_stream(fps, 1);
+    WorkStream output_stream(fps, num_worker_threads);
 
     size_t i;
     pthread_t worker_threads[num_worker_threads];
@@ -57,27 +58,28 @@ namespace parallel_cv {
 
       if (!capture.read(frame) || frame.empty()) break;
 
-      workable_ptr = makePtr<Workable>(command_function, frame, prev);
+      if (!work_stream.full() && !output_stream.full()) {
+        workable_ptr = Ptr<Workable>(new Workable(command_function, frame, prev));
 
-      work_stream.push(workable_ptr);
-      output_stream.push(workable_ptr);
+        work_stream.push(workable_ptr);
+        output_stream.push(workable_ptr);
+      }
 
       swap(frame, prev);
 
       tspec.tv_nsec += 1e9/fps;
-      if (tspec.tv_nsec >= 1e9) {
+      while (tspec.tv_nsec >= 1e9) {
         tspec.tv_nsec -= 1e9;
         tspec.tv_sec++;
       }
       while(clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &tspec, NULL) == EINTR);
     }
 
+    workable_ptr = Ptr<Workable>(new Workable(&commands::exit, frame, prev));
     for (i = 0; i < num_worker_threads; i++) {
-      workable_ptr = makePtr<Workable>(&commands::exit, frame, prev);
       work_stream.push(workable_ptr);
     }
 
-    workable_ptr = makePtr<Workable>(&commands::exit, frame, prev);
     output_stream.push(workable_ptr);
 
     pthread_join(output_thread, NULL);
