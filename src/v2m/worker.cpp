@@ -10,9 +10,9 @@
 #include "commands/exit.hpp"
 
 #define COMMAND_FUNCTION commands::map
-#define WINDOW_NAME "ParallelCV"
+#define WINDOW_NAME "V2M"
 
-namespace parallel_cv {
+namespace v2m {
   Worker::Worker(cv::String video_path): capture(video_path), fps(capture.get(cv::CAP_PROP_FPS)) {
     if (!capture.isOpened()) {
       log("Error: could not open video capture");

@@ -2,7 +2,7 @@
 
 #include "workable.hpp"
 
-using namespace parallel_cv;
+using namespace v2m;
 
 Workable::Workable(
   cv::Mat (*const _function)(cv::Mat&, cv::Mat&),

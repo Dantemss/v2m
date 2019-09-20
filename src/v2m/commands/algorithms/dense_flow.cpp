@@ -6,7 +6,7 @@
 #define K_CORNER     K_ADJACENT/sqrt(2)
 #define SCALE_FACTOR 8
 
-namespace parallel_cv {
+namespace v2m {
   namespace commands {
     namespace algorithms {
       namespace dense_flow {

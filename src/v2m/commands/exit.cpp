@@ -2,7 +2,7 @@
 
 #include "exit.hpp"
 
-namespace parallel_cv {
+namespace v2m {
   namespace commands {
     cv::Mat exit(cv::Mat& frame, cv::Mat& prev) {
       pthread_exit(NULL);

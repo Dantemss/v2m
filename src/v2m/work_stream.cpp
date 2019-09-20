@@ -1,6 +1,6 @@
 #include "work_stream.hpp"
 
-using namespace parallel_cv;
+using namespace v2m;
 
 WorkStream::WorkStream(size_t _max_size): max_size(_max_size) {
   pthread_mutex_init(&mutex, NULL);

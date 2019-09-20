@@ -1,5 +1,5 @@
-#ifndef PARALLEL_CV_WORKER_HPP
-#define PARALLEL_CV_WORKER_HPP
+#ifndef V2M_WORKER_HPP
+#define V2M_WORKER_HPP
 
 #include <pthread.h>
 
@@ -10,7 +10,7 @@
 
 #define NUM_WORKER_THREADS 4
 
-namespace parallel_cv {
+namespace v2m {
   class Worker {
     cv::VideoCapture capture;
     double fps;

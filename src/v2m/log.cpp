@@ -2,8 +2,8 @@
 
 #include "log.hpp"
 
-namespace parallel_cv {
+namespace v2m {
   void log(const char* message) {
-    printf("[ParallelCV] %s\n", message);
+    printf("[V2M] %s\n", message);
   }
 }

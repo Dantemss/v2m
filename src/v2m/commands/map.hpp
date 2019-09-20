@@ -1,9 +1,9 @@
-#ifndef PARALLEL_CV_COMMANDS_MAP_HPP
-#define PARALLEL_CV_COMMANDS_MAP_HPP
+#ifndef V2M_COMMANDS_MAP_HPP
+#define V2M_COMMANDS_MAP_HPP
 
 #include <opencv2/core/mat.hpp>
 
-namespace parallel_cv {
+namespace v2m {
   namespace commands {
     cv::Mat map(cv::Mat& frame, cv::Mat& prev);
   }

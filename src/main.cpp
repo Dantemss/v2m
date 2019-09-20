@@ -1,7 +1,7 @@
-#include "parallel_cv/log.hpp"
-#include "parallel_cv/worker.hpp"
+#include "v2m/log.hpp"
+#include "v2m/worker.hpp"
 
-using namespace parallel_cv;
+using namespace v2m;
 
 int main(int argc, char* argv[]) {
   cv::String video_path;

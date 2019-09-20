@@ -1,8 +1,9 @@
-# ParallelCV
+# V2M
 
-Parallel video stream processing for OpenCV
+Transform a video from a moving camera into a 3D map of the environment.
 
-# Licensing
+# License
 
 This repository is licensed under the AGPL v3.0 license (see the LICENSE file).
+
 Contact the author for alternative licensing options.

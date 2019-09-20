@@ -1,11 +1,11 @@
-#ifndef PARALLEL_CV_COMMANDS_ALGORITHMS_DENSE_FLOW_HPP
-#define PARALLEL_CV_COMMANDS_ALGORITHMS_DENSE_FLOW_HPP
+#ifndef V2M_COMMANDS_ALGORITHMS_DENSE_FLOW_HPP
+#define V2M_COMMANDS_ALGORITHMS_DENSE_FLOW_HPP
 
 #include <vector>
 
 #include <opencv2/core/mat.hpp>
 
-namespace parallel_cv {
+namespace v2m {
   namespace commands {
     namespace algorithms {
       namespace dense_flow {

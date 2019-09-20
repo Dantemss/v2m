@@ -1,5 +1,5 @@
-#ifndef PARALLEL_CV_WORK_STREAM_HPP
-#define PARALLEL_CV_WORK_STREAM_HPP
+#ifndef V2M_WORK_STREAM_HPP
+#define V2M_WORK_STREAM_HPP
 
 #include <queue>
 #include <pthread.h>
@@ -7,7 +7,7 @@
 
 #include "workable.hpp"
 
-namespace parallel_cv {
+namespace v2m {
   class WorkStream {
     size_t max_size;
     std::queue <cv::Ptr<Workable>> queue;

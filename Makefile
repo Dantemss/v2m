@@ -4,7 +4,7 @@ LD_FLAGS += -pthread `pkg-config --libs opencv4`
 
 PROG = map
 
-SUBDIRS = src src/parallel_cv src/parallel_cv/commands src/parallel_cv/commands/algorithms
+SUBDIRS = src src/v2m src/v2m/commands src/v2m/commands/algorithms
 
 CPP_FILES := $(wildcard $(addsuffix /*.cpp, $(SUBDIRS)))
 OBJ_FILES := $(CPP_FILES:src/%.cpp=build/%.o)

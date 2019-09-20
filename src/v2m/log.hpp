@@ -1,3 +1,3 @@
-namespace parallel_cv {
+namespace v2m {
   void log(const char* message);
 }

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-namespace parallel_cv {
+namespace v2m {
   namespace commands {
     cv::Mat map(cv::Mat& frame, cv::Mat& prev) {
       if (prev.empty()) return frame;

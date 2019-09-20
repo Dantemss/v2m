@@ -1,5 +1,5 @@
-#ifndef PARALLEL_CV_WORKABLE_HPP
-#define PARALLEL_CV_WORKABLE_HPP
+#ifndef V2M_WORKABLE_HPP
+#define V2M_WORKABLE_HPP
 
 #include <atomic>
 
@@ -7,7 +7,7 @@
 
 #include <opencv2/core/mat.hpp>
 
-namespace parallel_cv {
+namespace v2m {
   class Workable {
     cv::Mat (*function)(cv::Mat&, cv::Mat&);
     cv::Mat frame, prev, output;
